@@ -6,21 +6,41 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import {Button, Linking, StyleSheet, Text, View} from 'react-native';
 
 const App = () => {
+  const [name, setName] = useState('Binh Dang');
+  const [info, setInfo] = useState({school: 'UET', year: 'third'});
+  const [count, setCount] = useState(0);
+
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>
-        Let's learn React native to build mobile app with me!
+      <Text style={styles.text}>{name}!</Text>
+      <Text>
+        I'm a {info.year} year student at {info.school}!
       </Text>
+
       <Button
-        title="Follow me"
+        title="Change info"
         onPress={() => {
-          Linking.openURL('https://github.com/hiradang');
+          setName('Hira Dang');
+          setInfo({
+            school: 'UET',
+            year: 'fourth',
+          });
         }}
       />
+
+      <Text></Text>
+
+      <Text>{count * 5}</Text>
+      <Button
+        title="Add"
+        onPress={() => {
+          setCount(count + 1);
+        }}></Button>
+      <Text>You clicked {count} times</Text>
     </View>
   );
 };
