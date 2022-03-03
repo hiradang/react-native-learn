@@ -7,40 +7,23 @@
  */
 
 import React, {useState} from 'react';
-import {Button, Linking, StyleSheet, Text, View} from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
 const App = () => {
-  const [name, setName] = useState('Binh Dang');
-  const [info, setInfo] = useState({school: 'UET', year: 'third'});
-  const [count, setCount] = useState(0);
+  const [name, setName] = useState('Style Test');
 
   return (
     <View style={styles.body}>
       <Text style={styles.text}>{name}!</Text>
-      <Text>
-        I'm a {info.year} year student at {info.school}!
-      </Text>
 
-      <Button
-        title="Change info"
-        onPress={() => {
-          setName('Hira Dang');
-          setInfo({
-            school: 'UET',
-            year: 'fourth',
-          });
-        }}
-      />
-
-      <Text></Text>
-
-      <Text>{count * 5}</Text>
-      <Button
-        title="Add"
-        onPress={() => {
-          setCount(count + 1);
-        }}></Button>
-      <Text>You clicked {count} times</Text>
+      <View style={styles.button}>
+        <Button
+          title="Change info"
+          onPress={() => {
+            setName('Style Test done!');
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -48,15 +31,25 @@ const App = () => {
 const styles = StyleSheet.create({
   body: {
     flex: 1,
-    backgroundColor: '#003344',
+    backgroundColor: '#403244',
     alignItems: 'center',
     justifyContent: 'center',
+    borderWidth: 20,
+    borderColor: '#324393',
+    borderRadius: 5,
   },
   text: {
     color: '#ffffff',
-    fontSize: 20,
+    fontSize: 40,
     fontStyle: 'italic',
     margin: 10,
+    textTransform: 'uppercase',
+  },
+  button: {
+    width: 250,
+    height: 70,
+    borderRadius: 10,
+    overflow: 'hidden',
   },
 });
 
