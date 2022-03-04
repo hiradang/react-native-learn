@@ -7,47 +7,52 @@
  */
 
 import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, RefreshControl} from 'react-native';
 
 const App = () => {
+  // list of items
+  const [items, setItems] = useState([
+    {key: 1, value: 'Item 1'},
+    {key: 2, value: 'Item 2'},
+    {key: 3, value: 'Item 3'},
+    {key: 4, value: 'Item 4'},
+    {key: 5, value: 'Item 5'},
+    {key: 6, value: 'Item 6'},
+    {key: 7, value: 'Item 7'},
+    {key: 8, value: 'Item 8'},
+    {key: 9, value: 'Item 9'},
+    {key: 10, value: 'Item 10'},
+  ]);
+  const [isRefreshing, setRefreshing] = useState(false);
+  const onRefresh = () => {
+    setRefreshing(true);
+
+    // do something when refresh here
+    //
+
+    // Turn off the spinning arrow
+    setRefreshing(false);
+  };
+
   return (
-    <View style={styles.body}>
-      <View style={styles.row}>
-        <View style={styles.view1}>
-          <Text style={styles.text}>1</Text>
-        </View>
-
-        <View style={styles.view2}>
-          <Text style={styles.text}>2</Text>
-        </View>
-
-        <View style={styles.view3}>
-          <Text style={styles.text}>3</Text>
-        </View>
-      </View>
-
-      <View style={styles.row}>
-        <View style={styles.view4}>
-          <Text style={styles.text}>4</Text>
-        </View>
-      </View>
-
-      <View style={styles.row}>
-        <View style={styles.view5}>
-          <Text style={styles.text}>5</Text>
-        </View>
-      </View>
-
-      <View style={styles.bigRow}>
-        <View style={styles.view6}>
-          <Text style={styles.text}>6</Text>
-        </View>
-
-        <View style={styles.view7}>
-          <Text style={styles.text}>7</Text>
-        </View>
-      </View>
-    </View>
+    <ScrollView
+      horizontal={false}
+      style={styles.body}
+      refreshControl={
+        <RefreshControl
+          refreshing={isRefreshing}
+          onRefresh={onRefresh}
+          colors={['#00ff00']}
+        />
+      }>
+      {items.map((item, key) => {
+        return (
+          <View style={styles.item} key={key}>
+            <Text style={styles.text}>{item.value}</Text>
+          </View>
+        );
+      })}
+    </ScrollView>
   );
 };
 
@@ -55,50 +60,12 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: 'white',
     flexDirection: 'column',
-    justifyContent: 'flex-start',
     height: '100%',
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    backgroundColor: 'white',
-  },
-  bigRow: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'stretch',
-    // Stretch to the full size of the parent
-    // but we have to set the size of parent
-    // which is in line 59
-  },
-  view1: {
-    flex: 1,
-    backgroundColor: '#000064',
-  },
-  view2: {
-    flex: 2,
-    backgroundColor: 'pink',
-  },
-  view3: {
-    flex: 3,
-    backgroundColor: 'yellow',
-  },
-  view4: {
-    backgroundColor: 'red',
-    flex: 1,
-  },
-  view5: {
-    backgroundColor: 'green',
-    flex: 1,
-  },
-  view6: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  view7: {
-    flex: 1,
-    backgroundColor: 'blue',
+  item: {
+    backgroundColor: '#4ae1fa',
+    textAlign: 'center',
+    margin: 10,
   },
   text: {
     color: '#999',
