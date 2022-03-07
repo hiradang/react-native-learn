@@ -43,7 +43,9 @@ const App = () => {
         <Modal
           visible={showWarning}
           onRequestClose={() => setShowWarning(false)}
-          transparent={true}>
+          transparent={true}
+          animationType="fade"
+          hardwareAccelerated>
           <View style={styles.warningContainer}>
             <View style={styles.warningModal}>
               <View style={styles.warningHeader}>
