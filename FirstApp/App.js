@@ -17,6 +17,8 @@ import {
   TouchableOpacity,
   Button,
   Pressable,
+  Alert,
+  ToastAndroid,
 } from 'react-native';
 
 const DismissKeyboard = ({children}) => (
@@ -30,7 +32,56 @@ const App = () => {
   const [submit, setSubmit] = useState(false);
 
   const onSubmit = () => {
-    setSubmit(!submit);
+    if (name.length > 3) {
+      setSubmit(!submit);
+    } else {
+      Alert.alert(
+        'warning',
+        'The name must be at least 3 characters',
+        [
+          // List of buttons
+          // Android: maximum 3
+          // IOS: infinitive
+          {
+            text: 'Cancel',
+            onPress: () => console.warn('Cancel Pressed'),
+            style: 'destructive',
+          },
+          {
+            text: 'OK',
+            onPress: () => console.warn('OK Pressed'),
+            style: 'destructive',
+          },
+        ],
+        // dismiss by tapping outside the alert
+        {
+          cancelable: true,
+          onDismiss: () => {
+            console.warn('Do something when the alert close');
+          },
+        },
+      );
+
+      ToastAndroid.show(
+        'The name must be at least 3 characters',
+        ToastAndroid.SHORT,
+        // default location: bottom
+      );
+
+      // ToastAndroid.showWithGravity(
+      //   'The name must be at least 3 characters',
+      //   ToastAndroid.LONG,
+      //   ToastAndroid.CENTER,
+      // );
+
+      // ToastAndroid.showWithGravityAndOffset(
+      //   'The name must be at least 3 characters',
+      //   ToastAndroid.SHORT,
+      //   ToastAndroid.TOP,
+      //   200,
+      //   0,
+      // );
+    }
   };
 
   return (
