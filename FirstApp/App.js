@@ -16,6 +16,8 @@ import {
   TouchableWithoutFeedback,
   Modal,
   Pressable,
+  Image,
+  ImageBackground,
 } from 'react-native';
 
 const DismissKeyboard = ({children}) => (
@@ -39,7 +41,11 @@ const App = () => {
 
   return (
     <DismissKeyboard>
-      <View style={styles.body}>
+      <ImageBackground
+        style={styles.body}
+        source={{
+          uri: 'https://cdn.pixabay.com/photo/2019/08/14/20/54/mobile-video-game-vector-background-4406706_1280.png',
+        }}>
         <Modal
           visible={showWarning}
           onRequestClose={() => setShowWarning(false)}
@@ -77,7 +83,6 @@ const App = () => {
           maxLength={20}
           // secureTextEntry
         />
-
         <Pressable
           onPress={onSubmit}
           // increase the area where users can touch
@@ -90,15 +95,29 @@ const App = () => {
           <Text style={styles.text}>{submit ? 'Clear' : 'Submit'}</Text>
         </Pressable>
 
-        {submit ? <Text style={styles.text}>Your name is: {name}</Text> : null}
-      </View>
+        {submit ? (
+          <View style={styles.body}>
+            <Text style={styles.text}>Your name is: {name}</Text>
+            <Image
+              source={require('./assets/done.png')}
+              style={styles.image}
+              resizeMode="stretch"
+            />
+          </View>
+        ) : (
+          <Image
+            source={require('./assets/error.png')}
+            style={styles.image}
+            resizeMode="stretch"
+          />
+        )}
+      </ImageBackground>
     </DismissKeyboard>
   );
 };
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: 'white',
     flexDirection: 'column',
     height: '100%',
     alignItems: 'center',
@@ -155,6 +174,11 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
     height: 50,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    margin: 10,
   },
 });
 
