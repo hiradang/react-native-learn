@@ -1,114 +1,70 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Keyboard,
-  TouchableWithoutFeedback,
-  Modal,
-  Pressable,
-  Image,
-  ImageBackground,
-} from 'react-native';
+import {StyleSheet, Text, View, Pressable} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import CustomButton from './CustomButton';
-import Header from './Header';
+const Stack = createNativeStackNavigator();
 
-const DismissKeyboard = ({children}) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
+const ScreenA = ({navigation}) => {
+  const onPressHandler = () => {
+    // Move to screen B by using the navigate funtion
+    navigation.navigate('Screen_B');
 
-const App = () => {
-  const [name, setName] = useState('');
-  const [submit, setSubmit] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
-
-  const onSubmit = () => {
-    if (name.length > 3) {
-      setSubmit(!submit);
-    } else {
-      setShowWarning(true);
-    }
+    // Replace screen B over sreen A => Screen A is no longer in the stack
+    // navigation.replace("Screen_B")
   };
 
   return (
-    <DismissKeyboard>
-      <ImageBackground
-        style={styles.body}
-        source={{
-          uri: 'https://cdn.pixabay.com/photo/2019/08/14/20/54/mobile-video-game-vector-background-4406706_1280.png',
-        }}>
-        <Header />
-        <Modal
-          visible={showWarning}
-          onRequestClose={() => setShowWarning(false)}
-          transparent={true}
-          animationType="fade"
-          hardwareAccelerated>
-          <View style={styles.warningContainer}>
-            <View style={styles.warningModal}>
-              <View style={styles.warningHeader}>
-                <Text>WARNING!</Text>
-              </View>
+    <View style={styles.body}>
+      <Text style={styles.text}>Screen A </Text>
 
-              <View style={styles.warningBody}>
-                <Text>Your name must be at least 4 characters long.</Text>
-              </View>
+      <Pressable
+        onPress={onPressHandler}
+        style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
+        <Text style={styles.text}>Go to Screen B</Text>
+      </Pressable>
+    </View>
+  );
+};
 
-              <Pressable
-                onPress={() => setShowWarning(false)}
-                style={styles.warningButton}
-                android_ripple={{color: '#fff'}}>
-                <Text style={styles.text}>OK</Text>
-              </Pressable>
-            </View>
-          </View>
-        </Modal>
-        <Text style={styles.text}>Please tell me you name:</Text>
-        <TextInput
-          // allow to input in many lines
-          // multiline
-          style={styles.textInput}
-          placeholder="eg: Binh Dang"
-          onChangeText={value => setName(value)}
-          // keyboardType="numbers-and-punctuation"
-          editable={true}
-          maxLength={20}
-          // secureTextEntry
+const ScreenB = ({navigation}) => {
+  const onPressHandler = () => {
+    navigation.navigate('Screen_A');
+
+    // Do it another way
+    // navigation.goBack();
+  };
+
+  return (
+    <View style={styles.body}>
+      <Text style={styles.text}>Screen B </Text>
+      <Pressable
+        onPress={onPressHandler}
+        style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
+        <Text style={styles.text}>Go to Screen A</Text>
+      </Pressable>
+    </View>
+  );
+};
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+      // screenOptions={{
+      //   header: () => null,
+      // }}
+
+      // Turn off header for every screen
+      >
+        <Stack.Screen
+          name="Screen_A"
+          component={ScreenA}
+          options={{header: () => null}}
         />
-        <CustomButton
-          title={submit ? 'Clear' : 'Submit'}
-          pressHandler={onSubmit}
-        />
-        {submit ? (
-          <View style={styles.body}>
-            <Text style={styles.text}>Your name is: {name}</Text>
-            <Image
-              source={require('../assets/done.png')}
-              style={styles.image}
-              resizeMode="stretch"
-            />
-          </View>
-        ) : (
-          <Image
-            source={require('../assets/error.png')}
-            style={styles.image}
-            resizeMode="stretch"
-          />
-        )}
-      </ImageBackground>
-    </DismissKeyboard>
+        <Stack.Screen name="Screen_B" component={ScreenB} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
@@ -117,64 +73,13 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     height: '100%',
     alignItems: 'center',
+    justifyContent: 'center',
   },
   text: {
-    color: '#555',
-    fontSize: 24,
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
     textAlign: 'center',
-  },
-  textInput: {
-    borderColor: 'black',
-    borderWidth: 1,
-    width: 300,
-    borderRadius: 5,
-    fontSize: 20,
-  },
-  button: {
-    backgroundColor: 'green',
-    width: 120,
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 20,
-  },
-  warningContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#00000099',
-  },
-  warningModal: {
-    backgroundColor: '#fff',
-    width: 300,
-    height: 300,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#000',
-  },
-  warningHeader: {
-    height: 50,
-    backgroundColor: '#fa4866',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
-  },
-  warningBody: {
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  warningButton: {
-    backgroundColor: '#42f566',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
-    height: 50,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    margin: 10,
   },
 });
 
