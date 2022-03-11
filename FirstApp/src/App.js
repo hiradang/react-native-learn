@@ -20,6 +20,9 @@ import {
   ImageBackground,
 } from 'react-native';
 
+import CustomButton from './CustomButton';
+import Header from './Header';
+
 const DismissKeyboard = ({children}) => (
   <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
     {children}
@@ -46,6 +49,7 @@ const App = () => {
         source={{
           uri: 'https://cdn.pixabay.com/photo/2019/08/14/20/54/mobile-video-game-vector-background-4406706_1280.png',
         }}>
+        <Header />
         <Modal
           visible={showWarning}
           onRequestClose={() => setShowWarning(false)}
@@ -59,7 +63,7 @@ const App = () => {
               </View>
 
               <View style={styles.warningBody}>
-                <Text>Your name must be at least 3 characters long.</Text>
+                <Text>Your name must be at least 4 characters long.</Text>
               </View>
 
               <Pressable
@@ -83,30 +87,22 @@ const App = () => {
           maxLength={20}
           // secureTextEntry
         />
-        <Pressable
-          onPress={onSubmit}
-          // increase the area where users can touch
-          hitSlop={{top: 10, bottom: 10, right: 10, left: 10}}
-          android_ripple={{color: '#00f'}}
-          style={({pressed}) => [
-            {backgroundColor: pressed ? '#dddddd' : '#00ff00'},
-            styles.button,
-          ]}>
-          <Text style={styles.text}>{submit ? 'Clear' : 'Submit'}</Text>
-        </Pressable>
-
+        <CustomButton
+          title={submit ? 'Clear' : 'Submit'}
+          pressHandler={onSubmit}
+        />
         {submit ? (
           <View style={styles.body}>
             <Text style={styles.text}>Your name is: {name}</Text>
             <Image
-              source={require('./assets/done.png')}
+              source={require('../assets/done.png')}
               style={styles.image}
               resizeMode="stretch"
             />
           </View>
         ) : (
           <Image
-            source={require('./assets/error.png')}
+            source={require('../assets/error.png')}
             style={styles.image}
             resizeMode="stretch"
           />
