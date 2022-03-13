@@ -1,11 +1,14 @@
 import React from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 
-function ScreenA({navigation}) {
+function ScreenA({navigation, route}) {
   const onPressHandler = () => {
     // Move to screen B by using the navigate funtion
-    // navigation.navigate('Screen_B');
-    navigation.openDrawer();
+    navigation.navigate('Screen_B', {
+      ItemName: 'Item from Screen A',
+      ItemId: 12,
+    });
+    // navigation.openDrawer();
   };
 
   return (
@@ -15,8 +18,9 @@ function ScreenA({navigation}) {
       <Pressable
         onPress={onPressHandler}
         style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Toggle drawer</Text>
+        <Text style={styles.text}>Go to Screen B</Text>
       </Pressable>
+      <Text style={styles.text}>{route.params?.Message}</Text>
     </View>
   );
 }

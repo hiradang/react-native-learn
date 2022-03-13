@@ -1,10 +1,14 @@
+import {NavigationHelpersContext} from '@react-navigation/core';
 import React from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
 
-function ScreenB({navigation}) {
+function ScreenB({navigation, route}) {
+  const {ItemName, ItemId} = route.params;
+
   const onPressHandler = () => {
-    // navigation.openDrawer();
-    navigation.toggleDrawer();
+    // navigation.goBack();
+    // navigation.setParams({ItemId: 14});
+    navigation.navigate('Screen_A', {Message: 'Message from Screen B'});
   };
 
   return (
@@ -13,8 +17,10 @@ function ScreenB({navigation}) {
       <Pressable
         onPress={onPressHandler}
         style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Toggle Drawer</Text>
+        <Text style={styles.text}>Back to screen A</Text>
       </Pressable>
+      <Text style={styles.text}>{ItemName}</Text>
+      <Text style={styles.text}>ID: {ItemId} </Text>
     </View>
   );
 }
