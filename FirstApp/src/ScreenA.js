@@ -35,8 +35,9 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 30,
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     textAlign: 'center',
+    fontFamily: 'LeagueSpartan-Black',
   },
 });
 
