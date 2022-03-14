@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
+import GlobalStyle from '../utils/GlobalStyle';
 
 function ScreenA({navigation, route}) {
   const onPressHandler = () => {
@@ -13,14 +14,16 @@ function ScreenA({navigation, route}) {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>Screen A </Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Screen A </Text>
 
       <Pressable
         onPress={onPressHandler}
         style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Go to Screen B</Text>
+        <Text style={GlobalStyle.ButtonStyle}>Go to Screen B</Text>
       </Pressable>
-      <Text style={styles.text}>{route.params?.Message}</Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>
+        {route.params?.Message}
+      </Text>
     </View>
   );
 }
@@ -37,7 +40,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
     // fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'LeagueSpartan-Black',
   },
 });
 

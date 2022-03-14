@@ -1,6 +1,7 @@
 import {NavigationHelpersContext} from '@react-navigation/core';
 import React from 'react';
 import {StyleSheet, Text, View, Pressable} from 'react-native';
+import GlobalStyle from '../utils/GlobalStyle';
 
 function ScreenB({navigation, route}) {
   const {ItemName, ItemId} = route.params;
@@ -13,14 +14,14 @@ function ScreenB({navigation, route}) {
 
   return (
     <View style={styles.body}>
-      <Text style={styles.text}>Screen B </Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Screen B </Text>
       <Pressable
         onPress={onPressHandler}
         style={({pressed}) => ({backgroundColor: pressed ? '#ddd' : '#0f0'})}>
-        <Text style={styles.text}>Back to screen A</Text>
+        <Text style={GlobalStyle.ButtonStyle}>Back to screen A</Text>
       </Pressable>
-      <Text style={styles.text}>{ItemName}</Text>
-      <Text style={styles.text}>ID: {ItemId} </Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>{ItemName}</Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>ID: {ItemId} </Text>
     </View>
   );
 }
@@ -35,9 +36,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontSize: 30,
-    // fontWeight: 'bold',
     textAlign: 'center',
-    fontFamily: 'LeagueSpartan-Regular',
+    // fontFamily: 'LeagueSpartan-Regular',
   },
 });
 
