@@ -7,9 +7,9 @@ const CustomButton = props => {
       onPress={props.pressHandler}
       // increase the area where users can touch
       hitSlop={{top: 10, bottom: 10, right: 10, left: 10}}
-      android_ripple={{color: '#00f'}}
+      android_ripple={{color: 'red'}}
       style={({pressed}) => [
-        {backgroundColor: pressed ? '#dddddd' : '#00ff00'},
+        {backgroundColor: pressed ? 'red' : props.color},
         styles.button,
       ]}>
       <Text style={styles.text}>{props.title}</Text>
@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   button: {
-    backgroundColor: 'green',
     width: 120,
     height: 50,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 20,
+    borderRadius: 10,
   },
 });
 
