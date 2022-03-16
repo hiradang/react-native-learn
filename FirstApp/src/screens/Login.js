@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Login({navigation}) {
   const [name, setName] = useState('');
+  const [age, setAge] = useState('');
 
   useEffect(() => {
     getData();
@@ -13,7 +14,7 @@ function Login({navigation}) {
 
   const getData = async () => {
     try {
-      await AsyncStorage.getItem('UserName').then(value => {
+      await AsyncStorage.getItem('UserData').then(value => {
         if (value !== null) {
           navigation.navigate('Home');
         }
@@ -28,7 +29,11 @@ function Login({navigation}) {
       Alert.alert('Warning!', 'Please input your name!');
     } else {
       try {
-        await AsyncStorage.setItem('UserName', name);
+        let user = {
+          Name: name,
+          Age: age,
+        };
+        await AsyncStorage.setItem('UserData', JSON.stringify(user));
         navigation.navigate('Home');
       } catch (error) {
         console.log(error);

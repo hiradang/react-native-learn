@@ -13,6 +13,7 @@ import CustomButton from '../utils/CustomButton';
 
 function Home({navigation, route}) {
   const [name, setName] = useState('');
+  const [age, setAge] = useState('');
 
   useEffect(() => {
     getData();
@@ -20,9 +21,11 @@ function Home({navigation, route}) {
 
   const getData = async () => {
     try {
-      await AsyncStorage.getItem('UserName').then(value => {
+      await AsyncStorage.getItem('UserData').then(value => {
         if (value !== null) {
-          setName(value);
+          let user = JSON.parse(value);
+          setName(user.Name);
+          setAge(user.Age);
         }
       });
     } catch (err) {
@@ -35,7 +38,10 @@ function Home({navigation, route}) {
       Alert.alert('Warning!', 'Please input your name!');
     } else {
       try {
-        await AsyncStorage.setItem('UserName', name);
+        let user = {
+          Name: name,
+        };
+        await AsyncStorage.mergeItem('UserData', JSON.stringify(user));
         Alert.alert('Success!', 'Your data has been updated!');
       } catch (error) {
         console.log(error);
@@ -45,7 +51,7 @@ function Home({navigation, route}) {
 
   const removeData = async () => {
     try {
-      await AsyncStorage.removeItem('UserName');
+      await AsyncStorage.removeItem('UserData');
       navigator.navigate('Login');
     } catch (error) {
       console.log(error);
@@ -56,6 +62,9 @@ function Home({navigation, route}) {
     <View style={styles.body}>
       <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Home </Text>
       <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Welcome {name}</Text>
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>
+        Your age is: {age}
+      </Text>
 
       <TextInput
         style={styles.input}
