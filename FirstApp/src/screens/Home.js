@@ -46,7 +46,7 @@ function Home({navigation, route}) {
   const removeData = async () => {
     try {
       await AsyncStorage.removeItem('UserName');
-      navigator.navigate('Login');
+      navigation.navigate('Login');
     } catch (error) {
       console.log(error);
     }
