@@ -10,6 +10,18 @@ import {
 import GlobalStyle from '../utils/GlobalStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from '../utils/CustomButton';
+import SQLite from 'react-native-sqlite-storage';
+
+const db = SQLite.openDatabase(
+  {
+    name: 'MainDB',
+    location: 'default',
+  },
+  () => {},
+  err => {
+    console.log(err);
+  },
+);
 
 function Home({navigation, route}) {
   const [name, setName] = useState('');
@@ -19,14 +31,18 @@ function Home({navigation, route}) {
     getData();
   }, []);
 
-  const getData = async () => {
+  const getData = () => {
     try {
-      await AsyncStorage.getItem('UserData').then(value => {
-        if (value !== null) {
-          let user = JSON.parse(value);
-          setName(user.Name);
-          setAge(user.Age);
-        }
+      db.transaction(tx => {
+        tx.executeSql('SELECT Name, Age FROM Users', [], (tx, results) => {
+          var len = results.rows.length;
+          if (len > 0) {
+            var userName = results.rows.item(0).Name;
+            var userAge = results.rows.item(0).Age;
+            setName(userName);
+            setAge(userAge);
+          }
+        });
       });
     } catch (err) {
       console.error(err);
@@ -38,11 +54,18 @@ function Home({navigation, route}) {
       Alert.alert('Warning!', 'Please input your name!');
     } else {
       try {
-        let user = {
-          Name: name,
-        };
-        await AsyncStorage.mergeItem('UserData', JSON.stringify(user));
-        Alert.alert('Success!', 'Your data has been updated!');
+        db.transaction(tx => {
+          tx.executeSql(
+            'UPDATE Users SET Name=?',
+            [name],
+            () => {
+              Alert.alert('Success!', 'Your data has been updated!');
+            },
+            err => {
+              console.log(err);
+            },
+          );
+        });
       } catch (error) {
         console.log(error);
       }
@@ -51,8 +74,18 @@ function Home({navigation, route}) {
 
   const removeData = async () => {
     try {
-      await AsyncStorage.removeItem('UserName');
-      navigation.navigate('Login');
+      db.transaction(tx => {
+        tx.executeSql(
+          'DELETE FROM Users',
+          [],
+          () => {
+            navigation.navigate('Login');
+          },
+          err => {
+            console.log(err);
+          },
+        );
+      });
     } catch (error) {
       console.log(error);
     }
