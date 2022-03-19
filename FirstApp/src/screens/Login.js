@@ -4,6 +4,8 @@ import GlobalStyle from '../utils/GlobalStyle';
 import CustomButton from '../utils/CustomButton';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SQLite from 'react-native-sqlite-storage';
+import {useSelector, useDispatch} from 'react-redux';
+import {setName, setAge} from '../redux/actions';
 
 const db = SQLite.openDatabase(
   {
@@ -17,8 +19,11 @@ const db = SQLite.openDatabase(
 );
 
 function Login({navigation}) {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
+  const {name, age} = useSelector(state => state.userReducer);
+  const dispatch = useDispatch();
+
+  // const [name, setName] = useState('');
+  // const [age, setAge] = useState('');
 
   useEffect(() => {
     createTable();
@@ -56,6 +61,8 @@ function Login({navigation}) {
       Alert.alert('Warning!', 'Please input your data!');
     } else {
       try {
+        dispatch(setName(name));
+        dispatch(setAge(age));
         await db.transaction(async tx => {
           await tx.executeSql(
             // "INSERT INTO Users (Name, Age) VALUES ('" + name + "'," + age + ')',
@@ -72,20 +79,18 @@ function Login({navigation}) {
 
   return (
     <View style={styles.body}>
-      <Image style={styles.logo} source={require('../../assets/SQLite.jpg')} />
-      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>
-        SQLite Database
-      </Text>
+      <Image style={styles.logo} source={require('../../assets/redux.png')} />
+      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Redux</Text>
 
       <TextInput
         style={styles.input}
         placeholder="Enter your name!"
-        onChangeText={value => setName(value)}></TextInput>
+        onChangeText={value => dispatch(setName(value))}></TextInput>
 
       <TextInput
         style={styles.input}
         placeholder="Enter your age!"
-        onChangeText={value => setAge(value)}></TextInput>
+        onChangeText={value => dispatch(setAge(value))}></TextInput>
       <CustomButton title="Login" color="#1eb900" pressHandler={setData} />
     </View>
   );
@@ -106,8 +111,8 @@ const styles = StyleSheet.create({
     marginBottom: 130,
   },
   logo: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 110,
     margin: 10,
   },
   input: {
