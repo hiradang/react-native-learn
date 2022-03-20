@@ -134,7 +134,15 @@ function Home({navigation, route}) {
       <FlatList
         data={cities}
         renderItem={({item, index}) => (
-          <TouchableOpacity onPress={() => handleNotification(item, index)}>
+          <TouchableOpacity
+            onPress={() => {
+              handleNotification(item, index);
+              navigation.navigate('Map', {
+                city: item.city,
+                lat: item.lat,
+                lng: item.lng,
+              });
+            }}>
             <View style={styles.item}>
               <Text style={styles.title}>{item.country}</Text>
               <Text style={styles.subtitle}>{item.city}</Text>

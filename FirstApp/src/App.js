@@ -5,6 +5,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Home from './screens/Home';
 import Login from './screens/Login';
+import Map from './screens/Map';
 
 import {Provider} from 'react-redux';
 import {Store} from './redux/store';
@@ -26,6 +27,13 @@ const App = () => {
           <Stack.Screen
             name="Login"
             component={Login}
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="Map"
+            component={Map}
             options={{
               headerShown: false,
             }}
