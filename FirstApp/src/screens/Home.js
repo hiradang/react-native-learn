@@ -128,8 +128,14 @@ function Home({navigation, route}) {
 
   return (
     <View style={styles.body}>
-      <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Home </Text>
       <Text style={[GlobalStyle.GlobalStyle, styles.text]}>Welcome {name}</Text>
+      <CustomButton
+        title="Open Camera"
+        color="#0080ff"
+        pressHandler={() => {
+          navigation.navigate('Camera');
+        }}
+      />
 
       <FlatList
         data={cities}
