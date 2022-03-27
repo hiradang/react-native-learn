@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1010426730662:android:4921b9f86703b39088fc67",
         "android_client_info": {
-          "package_name": "com.firstapp"
+          "package_name": "com.hiradang.todolist"
         }
       },
       "oauth_client": [

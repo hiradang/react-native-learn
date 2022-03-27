@@ -1,4 +1,4 @@
-package com.firstapp;
+package com.hiradang.todolist;
 
 import com.facebook.react.ReactActivity;
 import android.os.Bundle;
